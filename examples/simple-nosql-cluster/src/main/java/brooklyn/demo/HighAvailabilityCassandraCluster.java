@@ -17,6 +17,10 @@ package brooklyn.demo;
 
 import java.util.List;
 
+import brooklyn.catalog.Catalog;
+import brooklyn.catalog.CatalogConfig;
+import brooklyn.config.ConfigKey;
+import brooklyn.entity.basic.ConfigKeys;
 import brooklyn.entity.basic.AbstractApplication;
 import brooklyn.entity.basic.Entities;
 import brooklyn.entity.basic.StartableApplication;
@@ -32,15 +36,20 @@ import brooklyn.util.CommandLineUtil;
 
 import com.google.common.collect.Lists;
 
+@Catalog(name="HA Cassandra Cluster Application", description="Deploy a Cassandra cluster with a High Availability architecture.")
 public class HighAvailabilityCassandraCluster extends AbstractApplication {
 
     public static final String DEFAULT_LOCATION_SPEC = "aws-ec2:us-east-1";
+    
+    @CatalogConfig(label="Initial Cluster Size", priority=1)
+    public static final ConfigKey<Integer> CASSANDRA_CLUSTER_SIZE = ConfigKeys.newConfigKey(
+        "cassandra.cluster.initial.size", "Initial size of the Cassandra cluster", 6);    
     
     @Override
     public void init() {
         addChild(EntitySpec.create(CassandraCluster.class)
                 .configure(CassandraCluster.CLUSTER_NAME, "Brooklyn")
-                .configure(CassandraCluster.INITIAL_SIZE, 6)
+                .configure(CassandraCluster.INITIAL_SIZE, getConfig(CASSANDRA_CLUSTER_SIZE))
                 .configure(CassandraCluster.ENABLE_AVAILABILITY_ZONES, true)
                 .configure(CassandraCluster.NUM_AVAILABILITY_ZONES, 3)
                 //See https://github.com/brooklyncentral/brooklyn/issues/973
