@@ -26,13 +26,13 @@ public class PostgreSqlRackspaceLiveTest extends PostgreSqlIntegrationTest {
     }
 
     @Test(groups = ["Live"])
-    public void test_Ubuntu_11_0() {
-        test("Ubuntu 11.0");
+    public void test_Ubuntu_12_0() {
+        test("Ubuntu 12.0");
     }
 
     @Test(groups = ["Live"])
-    public void test_Ubuntu_12_0() {
-        test("Ubuntu 12.0");
+    public void test_Ubuntu_13() {
+        test("Ubuntu 13");
     }
 
     @Test(groups = ["Live"])

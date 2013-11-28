@@ -30,13 +30,13 @@ public class RubyRepRackspaceLiveTest extends RubyRepIntegrationTest {
     }
 
     @Test(groups = "Live")
-    public void test_Ubuntu_11_0() throws Exception {
-        test("Ubuntu 11.0");
+    public void test_Ubuntu_12_0() throws Exception {
+        test("Ubuntu 12.0");
     }
 
     @Test(groups = "Live")
-    public void test_Ubuntu_12_0() throws Exception {
-        test("Ubuntu 12.0");
+    public void test_Ubuntu_13() throws Exception {
+        test("Ubuntu 13");
     }
 
     @Test(groups = "Live")
