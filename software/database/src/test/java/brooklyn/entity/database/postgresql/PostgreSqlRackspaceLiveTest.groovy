@@ -46,8 +46,8 @@ public class PostgreSqlRackspaceLiveTest extends PostgreSqlIntegrationTest {
     }
 
     @Test(groups = ["Live"])
-    public void test_Fedora_17() {
-        test("Fedora 17");
+    public void test_Fedora() {
+        test("Fedora ");
     }
 
     @Test(groups = ["Live"])

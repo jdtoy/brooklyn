@@ -45,8 +45,8 @@ public class MySqlLiveRackspaceTest extends MySqlIntegrationTest {
     }
 
     @Test(groups = {"Live"})
-    public void test_Fedora_17() throws Exception {
-        test("Fedora 17");
+    public void test_Fedora() throws Exception {
+        test("Fedora ");
     }
 
     @Test(groups = {"Live"})
