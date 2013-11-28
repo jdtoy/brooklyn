@@ -36,8 +36,8 @@ public class PostgreSqlRackspaceLiveTest extends PostgreSqlIntegrationTest {
     }
 
     @Test(groups = ["Live"])
-    public void test_CentOS_6_0() {
-        test("CentOS 6.0");
+    public void test_CentOS_6() {
+        test("CentOS 6");
     }
 
     @Test(groups = ["Live"])
