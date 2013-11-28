@@ -45,8 +45,8 @@ public class RubyRepRackspaceLiveTest extends RubyRepIntegrationTest {
     }
 
     @Test(groups = "Live")
-    public void test_CentOS_5_6() throws Exception {
-        test("CentOS 5.6");
+    public void test_CentOS_5() throws Exception {
+        test("CentOS 5");
     }
 
     @Test(groups = "Live")
