@@ -63,8 +63,8 @@ public class MySqlLiveRackspaceTest extends MySqlIntegrationTest {
         MySqlNode mysql = tapp.createAndManageChild(EntitySpec.create(MySqlNode.class)
                 .configure("creationScriptContents", CREATION_SCRIPT));
 
-        brooklynProperties.put("brooklyn.jclouds.rackspace-cloudservers-uk.image-name-regex", osRegex);
-        brooklynProperties.remove("brooklyn.jclouds.rackspace-cloudservers-uk.image-id");
+        brooklynProperties.put("brooklyn.location.jclouds.rackspace-cloudservers-uk.imageNameRegex", osRegex);
+        brooklynProperties.remove("brooklyn.location.jclouds.rackspace-cloudservers-uk.image-id");
         brooklynProperties.put("inboundPorts", "22, 3306");
         JcloudsLocation jcloudsLocation = (JcloudsLocation) managementContext.getLocationRegistry().resolve("jclouds:rackspace-cloudservers-uk");
 
