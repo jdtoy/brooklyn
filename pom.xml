@@ -78,6 +78,7 @@
         <brooklyn.version>0.7.0-SNAPSHOT</brooklyn.version>  <!-- BROOKLYN_VERSION -->
 
         <cobertura.version>1.9.4.1</cobertura.version>
+        <reportng.version>1.1.4</reportng.version>
         <surefire.version>2.13</surefire.version>
         <plantuml.version>6121</plantuml.version>
         <ant.version>1.8.4</ant.version>
@@ -436,6 +437,11 @@
                     <groupId>net.sourceforge.cobertura</groupId>
                     <artifactId>cobertura</artifactId>
                     <version>${cobertura.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.uncommons</groupId>
+                    <artifactId>reportng</artifactId>
+                    <version>${reportng.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -841,8 +847,13 @@
                             <properties>
                                 <property>
                                     <name>listener</name>
-                                    <value>brooklyn.test.LoggingVerboseReporter,brooklyn.test.BrooklynLeakListener</value>
+                                    <value>brooklyn.test.LoggingVerboseReporter,brooklyn.test.BrooklynLeakListener,org.uncommons.reportng.HTMLReporter, org.uncommons.reportng.JUnitXMLReporter</value>
                                 </property>
+                                <property>
+                                    <name>org.uncommons.reportng.frames</name>
+                                    <value>false</value>
+                                </property>
+
                             </properties>
                             <enableAssertions>true</enableAssertions>
                             <groups>${includedTestGroups}</groups>
@@ -874,6 +885,30 @@
                     </plugin>
                 </plugins>
             </build>
+            <dependencies>
+                <dependency>
+                    <groupId>com.google.inject</groupId>
+                    <artifactId>guice</artifactId>
+                    <version>3.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>velocity</groupId>
+                    <artifactId>velocity</artifactId>
+                    <version>1.4</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.uncommons</groupId>
+                    <artifactId>reportng</artifactId>
+                    <version>${reportng.version}</version>
+                    <scope>test</scope>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.testng</groupId>
+                            <artifactId>testng</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>Integration</id>
