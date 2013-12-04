@@ -859,12 +859,6 @@
                                 <net.sourceforge.cobertura.datafile>${project.build.directory}/cobertura/cobertura.ser</net.sourceforge.cobertura.datafile>
                                 <cobertura.user.java.nio>false</cobertura.user.java.nio>
                             </systemPropertyVariables>
-                            <systemProperties>
-                                <property>
-                                    <name>org.uncommons.reportng.frames</name>
-                                    <value>false</value>
-                                </property>
-                            </systemProperties>
                             <printSummary>true</printSummary>
                         </configuration>
                     </plugin>
