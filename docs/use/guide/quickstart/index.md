@@ -12,25 +12,7 @@ This guide will walk you through deploying an application to a public cloud, and
 We will be deploying an example 3-tier web application, described using this blueprint: 
 
 {% highlight yaml %}
-name: My Web Cluster
-location: localhost
-
-services:
-
-- serviceType: brooklyn.entity.webapp.ControlledDynamicWebAppCluster
-  name: My Web
-  location: localhost
-  brooklyn.config:
-    wars.root: http://search.maven.org/remotecontent?filepath=io/brooklyn/example/brooklyn-example-hello-world-sql-webapp/0.6.0-M2/brooklyn-example-hello-world-sql-webapp-0.6.0-M2.war
-    java.sysprops: 
-      brooklyn.example.db.url: $brooklyn:formatString("jdbc:%s%s?user=%s\\&password=%s",
-         component("db").attributeWhenReady("database.url"), "visitors", "brooklyn", "br00k11n")
-
-- serviceType: brooklyn.entity.database.mysql.MySqlNode
-  id: db
-  name: My DB
-  brooklyn.config:
-    creationScriptUrl: classpath://visitors-creation-script.sql
+{% readj my-web-cluster.yaml %}
 {% endhighlight %}
 
 (This is written in YAML, following the [camp specification](https://www.oasis-open.org/committees/camp/). )
@@ -78,7 +60,10 @@ $ brooklyn launch
 
 Brooklyn will output the address of the management interface:
 
-`... Started Brooklyn console at http://127.0.0.1:8081/` ([link](http://127.0.0.1:8081/))
+
+`INFO  Starting brooklyn web-console on loopback interface because no security config is set`
+
+`INFO  Started Brooklyn console at http://127.0.0.1:8081/, running classpath://brooklyn.war and []`
 
 But before we really use Brooklyn, we need to setup some Locations.
  
@@ -108,31 +93,46 @@ $ brooklyn launch
 
 ## Launching an Application
 
-There are several ways to deploy a YAML blueprint:
+There are several ways to deploy a YAML blueprint (including specifying it on the command line and submitting it via the REST API).
 
-1. We can supply a blueprint file at startup: `brooklyn launch --app /path/to/myblueprint.yaml`
-1. We can deploy using the web-console.
-1. We can deploy using the brooklyn REST api.
+For now we will simply copy-and-paste the raw YAML blueprint into the web console.
 
-We will use the second option to deploy a 3-tier web-app, using the YAML file at the top of this page.
+When opening the web console for the first time ([127.0.0.1:8081](http://127.0.0.1:8081)) the Add Application dialog is displayed.
+Select the YAML tab.
 
-On the home page of the Brooklyn web-console, click the "add application" button (if no applications are currently running, this will be opened automatically). Select the YAML tab and paste your YAML code.
+![Brooklyn web console, showing the YAML tab of the Add Application dialog.](add-application-modal-yaml.png)
 
-### Chose your cloud / location
 
-Edit the yaml to use the location you configured, e.g. replace:
+### Chose your Cloud / Location
+
+Edit the 'location' parameter in the YAML template (repeated below) to use the location you configured.
+
+Replace:
+{% highlight yaml %}
+location: location
+{% endhighlight %}
+
+with (for example, one of):
 {% highlight yaml %}
 location: localhost
-{% endhighlight %}
-
-with:
-{% highlight yaml %}
 location: google-compute-engine:europe-west1-a
+location: aws-ec2:us-east-1
+location: rackspace-cloudservers-us:ORD
 {% endhighlight %}
 
-Click "finish". You should see your application listed, with status "STARTING".
+** My Web Cluster Template **
 
-## Monitoring and managing applications
+{% highlight yaml %}
+{% readj my-web-cluster.yaml %}
+{% endhighlight %}
+
+
+Click "Finish". You should see your application listed, with status "STARTING".
+
+![My Web Cluster is STARTING.](my-web-cluster-starting.png)
+
+
+## Monitoring and Managing Applications
 
 In the Brooklyn web-console clicking on an application listed on the home page, or the Applications tab, will show all the applications currently running.
 
