@@ -7,7 +7,7 @@ categories: [use, guide]
 
 {% include fields.md %}
 
-This guide will walk you through deploying an application to a public cloud, and managing that application.
+This guide will walk you through deploying an application to a public cloud.
 
 We will be deploying an example 3-tier web application, described using this blueprint: 
 
@@ -40,11 +40,13 @@ $ tar -zxf brooklyn-dist-{{ site.brooklyn-version }}-dist.tar.gz
 
 This will create a `brooklyn-{{ site.brooklyn-version }}` folder.
 
-Note: you'll also need Java JRE or SDK installed (version 6 or later).
+Note: You'll need a Java JRE or SDK installed (version 6 or later), as Brooklyn is Java under the covers.
 
 ## Launch Brooklyn
 
 Let's setup some paths for easy commands.
+
+(Click the clipboard on these code snippets for easier c&p.)
 
 {% highlight bash %}
 $ cd brooklyn-{{ site.brooklyn-version }}
@@ -71,7 +73,9 @@ Stop Brooklyn with ctrl-c.
 
 ## Configuring a Location
 
-Brooklyn deploys applications to Locations. Locations can be clouds, machines with fixed IPs or localhost (for testing).
+Brooklyn deploys applications to Locations.
+
+Locations can be clouds, machines with fixed IPs or localhost (for testing).
 
 Brooklyn loads Location configuration  from `~/.brooklyn/brooklyn.properties`. 
 
@@ -99,10 +103,9 @@ There are several ways to deploy a YAML blueprint (including specifying the blue
 
 For now, we will simply copy-and-paste the raw YAML blueprint into the web console.
 
-When opening the web console ([127.0.0.1:8081](http://127.0.0.1:8081)) for the first time the Add Application dialog is displayed.
-Select the YAML tab.
+Open the web console ([127.0.0.1:8081](http://127.0.0.1:8081)). As Brooklyn is not currently managing any applications the 'Create Application' dialog opens automatically. Select the YAML tab.
 
-![Brooklyn web console, showing the YAML tab of the Add Application dialog.](add-application-modal-yaml.png)
+![Brooklyn web console, showing the YAML tab of the Add Application dialog.](images/add-application-modal-yaml.png)
 
 
 ### Chose your Cloud / Location
@@ -122,45 +125,57 @@ location: google-compute-engine:europe-west1-a
 location: localhost
 {% endhighlight %}
 
-**My Web Cluster Template**
+**My Web Cluster Blueprint**
 
 {% highlight yaml %}
 {% readj my-web-cluster.yaml %}
 {% endhighlight %}
 
-Paste the YAML template into the dialog and click "Finish".
+Paste the modified YAML into the dialog and click 'Finish'.
 The dialog will close and Brooklyn will begin deploying your application.
 
-![My Web Cluster is STARTING.](my-web-cluster-starting.png)
+Your application will be shown as 'Starting' on the web console's front page.
+
+![My Web Cluster is STARTING.](images/my-web-cluster-starting.png)
 
 
 ## Monitoring and Managing Applications
 
-Clicking on an application name, or opening the Applications tab, will show all the applications currently running.
+Click on the application name, or open the Applications tab.
 
-We can explore the management hierarchy of an application, which will show us the entities it is composed of. If you have deployed the above YAML, then you'll see a standard 3-tier web-app. Clicking on the 'My Web' entity (a `ControlledDynamicWebAppCluster`) will show if the cluster is ready to serve and, when ready, will provide a web address for the front of the loadbalancer.
+We can explore the management hierarchy of the application, which will show us the entities it is composed of.
 
-![Exploring My Web.](my-web.png)
+ * My Web Cluster (A `BasicApplication`)
+     * My DB (A `MySqlNode`)
+     * My Web (A `ControlledDynamicWebAppCluster`)
+        * Cluster of JBoss7 Servers (A `DynamicWebAppCluster`)
+        * NginxController (An `NginxController`)
 
 
-If the service is up, you can view the demo web application in your browser at the webapp.url.
 
-Through the Activities tab, you can drill into the activities each entity is doing or has recently done. Click on the task to see its details, and to drill into its "Children Tasks". For example, if you drill into My DB's start operation, you can see the "Start (processes)", then "launch", and then the ssh command used including the stdin, stdout and stderr.
+Clicking on the 'My Web' entity will show the Summary tab. Here we can see if the cluster is ready to serve and, when ready, grab the web address for the front of the loadbalancer.
 
-![My DB Activities.](my-db-activities.png)
+![Exploring My Web.](images/my-web.png)
+
+
+The Activity tab allows us to drill down into what activities each entity is currently doing or has recently done. It is possible to drill down to all child tasks, and view the commands issued, and any errors or warnings that occured.
+
+Drill into the 'My DB' start operation. Working down through  'Start (processes)', then 'launch', we can discover the ssh command used including the stdin, stdout and stderr.
+
+[![My DB Activities.](images/my-db-activities.png)](images/my-db-activities-large.png)
 
 
 ## Stopping the Application
 
-To stop an application, select the application in the tree view, click on the Effectors tab, and invoke the "Stop" effector. This will cleanly shutdown all components in the application.
+To stop an application, select the application in the tree view (the top/root entity), click on the Effectors tab, and invoke the 'Stop' effector. This will cleanly shutdown all components in the application and return any cloud machines that were being used.
 
-![My DB Activities.](my-web-cluster-stop-confirm.png)
+[![My DB Activities.](images/my-web-cluster-stop-confirm.png)](images/my-web-cluster-stop-confirm-large.png)
 
 
 ### Next 
 
-So far you have touched on Brooklyn's ability to *deploy* an application blueprint to a cloud provider, but this a very small part of Brooklyn's capabilities!
+So far we have touched on Brooklyn's ability to *deploy* an application blueprint to a cloud provider, but this a very small part of Brooklyn's capabilities!
 
-You should be aware of Brooklyn's ability to use policies to automatically *manage*  applications, and the ability to store a catalog of application blueprints, ready to go.
+Brooklyn's real power is in using Policies to automatically *manage* applications. There is also the (very useful) ability to store a catalog of application blueprints, ready to go.
 
-[Getting Started - Part Two](step-2.html)
+[Getting Started - Policies and Catalogs](policies-and-catalogs.html)
