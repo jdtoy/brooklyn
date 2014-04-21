@@ -1,6 +1,7 @@
 [
 { "title": "Quick Start",
-  "file":  "{{ site.url }}/use/guide/quickstart/index.html" }, 
+  "file":  "{{ site.url }}/use/guide/quickstart/index.html",
+   "children": {% readj ./quickstart/toc.json %} },
 { "title": "Defining Applications",
   "file":  "{{ site.url }}/use/guide/defining-applications/basic-concepts.html", 
   "children": {% readj ./defining-applications/toc.json %} },
