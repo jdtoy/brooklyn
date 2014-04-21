@@ -26,11 +26,11 @@ $ brooklyn launch
 
 Now when we open the web console, two applications are displayed from the catalog. Select the 'Web Cluster with DB' and click 'Next'.
 
-![Viewing Catalog entries in Add Application dialog.](add-application-catalog-web-cluster-with-db.png)
+![Viewing Catalog entries in Add Application dialog.](images/add-application-catalog-web-cluster-with-db.png)
 
 Select the Location that Brooklyn should deploy to, and name your application:
 
-![Selecting a location and application name.](add-application-catalog-web-cluster-with-db-location.png)
+![Selecting a location and application name.](images/add-application-catalog-web-cluster-with-db-location.png)
 
 Clicking 'Finish' will launch the application as before.
 
@@ -45,7 +45,7 @@ Drill down into the 'ControlledDynamicWebAppCluster' to the 'Cluster of JBoss7Se
 
 You will see that the autoscaling policy is running.
 
-![Inspecting the jboss7 cluster policies.](jboss7-cluster-policies.png)
+![Inspecting the jboss7 cluster policies.](images/jboss7-cluster-policies.png)
 
 
 This policy will automatically scale the cluster up or down to be the
